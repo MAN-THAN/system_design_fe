@@ -7,35 +7,34 @@ import { styled } from "@mui/material/styles";
 import { useNavigate, useLocation } from "react-router-dom";
 import { axiosInstance } from "../axios/axiosInstance";
 import { ApiEndpoints } from "../config";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { ScholarContext } from "../context/scholarContext";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  background: theme.palette.background.paper,
-  color: theme.palette.text.primary,
-  boxShadow: "none",
-  borderBottom: `1px solid ${theme.palette.divider}`,
+  background: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
 }));
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { scholarDetails, setScholarDetails } =
-  React.useContext(ScholarContext);
+  const { scholarDetails, setScholarDetails } = React.useContext(ScholarContext);
+
   const handleLogout = async () => {
     try {
       const res = await axiosInstance.post(ApiEndpoints.LOGOUT, {
         _id: scholarDetails._id,
       });
       if (res?.status === 200) {
-        toast.success('logged out!')
+        toast.success("Logged out!");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("scholarDetails");
         setScholarDetails({});
         navigate("/login");
       }
     } catch (error) {
-      toast.error(error);
+      toast.error(error?.message || "Logout failed");
     }
   };
 
@@ -48,37 +47,38 @@ export default function Header() {
   };
 
   return (
-    <StyledAppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          {location.pathname === "/scholars" ? "Scholars List" : "My Dashboard"}
-        </Typography>
+    <StyledAppBar sx={{position : 'sticky', top : '0%'}}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography variant="h6">{location.pathname === "/scholars" ? "Scholars List" : "Dashboard"}</Typography>
 
-        {location.pathname !== "/" && (
+        <div>
+          {location.pathname !== "/" && (
+            <Button color="inherit" sx={{ mr: 2 }} variant="outlined" onClick={goToDashboard}>
+              Dashboard
+            </Button>
+          )}
+
+          {location.pathname !== "/scholars" && (
+            <Button color="inherit" sx={{ mr: 2 }} variant="outlined" onClick={goToScholars}>
+              Scholars
+            </Button>
+          )}
+
           <Button
-            color="primary"
-            variant="outlined"
-            sx={{ mr: 2 }}
-            onClick={goToDashboard}
+            color="secondary"
+            variant="contained"
+            onClick={handleLogout}
+            sx={{
+              backgroundColor: "#fff",
+              color: (theme) => theme.palette.primary.main,
+              "&:hover": {
+                backgroundColor: "#f0f0f0",
+              },
+            }}
           >
-            Dashboard
+            Logout
           </Button>
-        )}
-
-        {location.pathname !== "/scholars" && (
-          <Button
-            color="primary"
-            variant="outlined"
-            sx={{ mr: 2 }}
-            onClick={goToScholars}
-          >
-            Scholars
-          </Button>
-        )}
-
-        <Button color="primary" variant="contained" onClick={handleLogout}>
-          Logout
-        </Button>
+        </div>
       </Toolbar>
     </StyledAppBar>
   );

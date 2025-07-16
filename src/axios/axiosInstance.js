@@ -20,7 +20,7 @@ export const axiosInstanceForAuth = axios.create({
 // Request interceptor to attach latest token
 axiosInstanceForAuth.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem("accessToken");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -35,11 +35,7 @@ axiosInstanceForAuth.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {

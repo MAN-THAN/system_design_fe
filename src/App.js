@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import { ScholarContextProvider } from "./context/scholarContext";
 import AuthGuard from "./guards/authGuard";
 import AuthRedirectGuard from "./guards/authRedirectGuard";
+import PostDetail from "./components/postDetails";
 
 const Layout = ({ children }) => {
   return (
@@ -34,6 +35,14 @@ function App() {
               }
             />
             <Route
+              path={"/post/:id"}
+              element={
+                <Layout>
+                  <PostDetail />
+                </Layout>
+              }
+            />
+            <Route
               path="scholars"
               element={
                 <Layout>
@@ -50,7 +59,7 @@ function App() {
           <Route path="*" element={<NoPageFound />} />
         </Routes>
       </BrowserRouter>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="bottom-left" autoClose={3000} />
     </ScholarContextProvider>
   );
 }

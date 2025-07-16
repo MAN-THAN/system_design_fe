@@ -17,9 +17,5 @@ export const ScholarContextProvider = ({ children }) => {
       localStorage.removeItem("scholarDetails");
     }
   }, [scholarDetails]);
-  return (
-    <ScholarContext.Provider value={{ scholarDetails, setScholarDetails }}>
-      {children}
-    </ScholarContext.Provider>
-  );
+  return <ScholarContext.Provider value={{ scholarDetails, setScholarDetails }}>{children}</ScholarContext.Provider>;
 };
