@@ -8,12 +8,14 @@ import AddPost from "./modals/addPost";
 import { ScholarContext } from "../context/scholarContext";
 import { toast } from "react-toastify";
 import PostCard from "./postCard";
+import LinearIndeterminate from "./loader";
 
 
 export default function Dashboard() {
   const [posts, setPosts] = React.useState([]);
   const [openAddModal, setOpenAddModal] = React.useState(false);
   const { scholarDetails } = React.useContext(ScholarContext);
+  const [isLoading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     fetchPosts();
@@ -21,10 +23,13 @@ export default function Dashboard() {
 
   const fetchPosts = async () => {
     try {
+      setLoading(true);
       const res = await axiosInstanceForAuth.get(ApiEndpoints.FETCH_ALL_POSTS);
       setPosts(res?.data);
     } catch (error) {
       console.error(error);
+    } finally{
+      setLoading(false)
     }
   };
 
@@ -46,6 +51,7 @@ export default function Dashboard() {
   return (
     <>
       <CssBaseline />
+      {isLoading && <LinearIndeterminate />}
       <Button
         // variant="contained"
         onClick={() => setOpenAddModal(true)}

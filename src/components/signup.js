@@ -58,6 +58,7 @@ export default function SignUp() {
     password: Yup.string().min(6, "Password should be of minimum 6 characters length").required("Password is required"),
     allowExtraEmails: Yup.boolean(),
   });
+  const [isLoading, setLoading] = React.useState(false);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -69,7 +70,7 @@ export default function SignUp() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
+      setLoading(true);
       try {
         const res = await axiosInstance.post(ApiEndpoints.SIGNUP, {
           name: values.name,
@@ -83,6 +84,8 @@ export default function SignUp() {
       } catch (error) {
         console.error(error);
         toast.error(error);
+      } finally{
+        setLoading(false);
       }
     },
   });
@@ -165,7 +168,7 @@ export default function SignUp() {
               />
             </FormControl>
 
-            <Button color="primary" variant="contained" fullWidth type="submit">
+            <Button loading={isLoading} color="primary" variant="contained" fullWidth type="submit">
               Sign up
             </Button>
           </Box>

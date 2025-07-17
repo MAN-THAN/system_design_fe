@@ -15,10 +15,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { axiosInstanceForAuth } from "../axios/axiosInstance";
 import { ApiEndpoints } from "../config";
+import LinearIndeterminate from "./loader";
 
 
 export default function Scholars() {
   const [scholars, setScholars] = React.useState([]);
+  const [isLoading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     fetchScholars();
@@ -26,16 +28,20 @@ export default function Scholars() {
 
   const fetchScholars = async () => {
     try {
+      setLoading(true);
       const res = await axiosInstanceForAuth.get(ApiEndpoints.FETCH_ALL_SCHOLARS);
       setScholars(res?.data);
     } catch (error) {
       console.error(error);
+    } finally{
+      setLoading(false);
     }
   };
 
   return (
     <>
       <CssBaseline />
+      {isLoading && <LinearIndeterminate />}
       <Container sx={{ py: 4 }}>
         <Typography variant="h4" gutterBottom>
           All Scholars

@@ -55,6 +55,7 @@ export default function Login() {
   });
   const navigate = useNavigate();
   const { setScholarDetails } = React.useContext(ScholarContext);
+  const [isLoading, setLoading] = React.useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -64,6 +65,7 @@ export default function Login() {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
+        setLoading(true);
         const res = await axiosInstance.post(ApiEndpoints.LOGIN, { email: values.email, password: values.password });
         if (res?.status === 200) {
           setScholarDetails(res.data);
@@ -75,6 +77,8 @@ export default function Login() {
         console.error(error);
         const err = error.response.data.msg;
         toast.error(err || "some error!");
+      } finally{
+        setLoading(false);
       }
     },
   });
@@ -120,7 +124,7 @@ export default function Login() {
               />
             </FormControl>
 
-            <Button color="primary" variant="contained" fullWidth type="submit">
+            <Button loading={isLoading} color="primary" variant="contained" fullWidth type="submit" >
               Login
             </Button>
           </Box>
