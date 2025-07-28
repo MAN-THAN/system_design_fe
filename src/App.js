@@ -1,10 +1,10 @@
 import { Router, Routes, Route, BrowserRouter } from "react-router-dom";
-import SignUpForm from "./components/signup";
-import Login from "./components/login";
-import NoPageFound from "./components/noPageFound";
-import Dashboard from "./components/dashboard";
+import SignUpForm from "./pages/signup";
+import Login from "./pages/login";
+import NoPageFound from "./pages/noPageFound";
+import Dashboard from "./pages/dashboard";
 import Header from "./components/header";
-import Scholars from "./components/scholar";
+import Scholars from "./pages/scholar";
 import { ToastContainer } from "react-toastify";
 import { ScholarContextProvider } from "./context/scholarContext";
 import AuthGuard from "./guards/authGuard";

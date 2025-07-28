@@ -15,7 +15,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { axiosInstanceForAuth } from "../axios/axiosInstance";
 import { ApiEndpoints } from "../config";
-import LinearIndeterminate from "./loader";
+import LinearIndeterminate from "../components/loader";
 
 
 export default function Scholars() {

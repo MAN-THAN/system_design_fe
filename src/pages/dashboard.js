@@ -4,11 +4,11 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { axiosInstanceForAuth } from "../axios/axiosInstance";
 import { ApiEndpoints } from "../config";
-import AddPost from "./modals/addPost";
+import AddPost from "../components/modals/addPost";
 import { ScholarContext } from "../context/scholarContext";
 import { toast } from "react-toastify";
-import PostCard from "./postCard";
-import LinearIndeterminate from "./loader";
+import PostCard from "../components/postCard";
+import LinearIndeterminate from "../components/loader";
 
 
 export default function Dashboard() {
